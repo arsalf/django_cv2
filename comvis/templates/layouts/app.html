@@ -1,0 +1,34 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}{% endblock title %}</title>
+    <link
+      href={% static "bootstrap/css/bootstrap.min.css" %}
+      rel="stylesheet"
+    />
+    <link
+      href={% static "css/style.css" %}
+      rel="stylesheet"
+    />
+    <script src="https://kit.fontawesome.com/48c190b106.js" crossorigin="anonymous"></script>
+
+    {% block styleCustom %} {% endblock styleCustom %}
+  </head>
+  <body class="bg-light">
+
+    {% include "layouts/navbar.html" %}
+
+    <main>
+    {% block content %} {% endblock content %}
+    </main>
+
+    <script
+      src={%static "bootstrap/js/bootstrap.bundle.min.js"%}
+      integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
