@@ -5,12 +5,12 @@ Pertemuan 2 : Show RGB per Pixel
 {% endblock title %}
 
 {% block styleCustom %}
-<link rel="stylesheet" href="{% static 'visual-percent-preloader/percent-preloader.min.css' %}"/>
+<link rel="stylesheet" href="{% static 'visual-percent-preloader/percent-preloader.min.css' %}" />
 <script src="{% static 'js/jquery-3.6.1.slim.js' %}"></script>
 <script src="{% static 'visual-percent-preloader/percent-preloader.min.js' %}"></script>
 {% endblock styleCustom %}
 
- {% block content %}
+{% block content %}
 <div class="preloader">
   <div class="inner">
     <span class="percentage"><span id="percentage">15</span>%</span>
@@ -25,56 +25,33 @@ Pertemuan 2 : Show RGB per Pixel
         {% for item in results %}
         <div class="col-md-4 mb-3 d-flex justify-content-center">
           <div class="card" style="width: 18rem">
-            <img
-              src="{% static 'images/' %}{{ item.nama_file }}"
-              class="card-img-top"
-              alt="fire"
-            />
+            <img src="{% static 'images/' %}{{ item.nama_file }}" class="card-img-top" alt="fire" />
             <div class="card-body">
               <h5 class="card-title">{{ item.nama_file }}</h5>
 
               <!-- Button trigger modal -->
-              <button
-                type="button"
-                class="btn btn-primary"
-                data-bs-toggle="modal"
-                data-bs-target="#staticBackdrop-{{ item.nama_file|cut:"." }}"
-              >
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                data-bs-target="#analysis-{{ item.nama_file|cut:"." }}">
                 Go Analysis
               </button>
 
               <!-- Modal -->
-              <div
-                class="modal fade"
-                id="staticBackdrop-{{ item.nama_file|cut:"." }}"
-                data-bs-backdrop="static"
-                data-bs-keyboard="false"
-                tabindex="-1"
-                aria-labelledby="staticBackdropLabel"
-                aria-hidden="true"
-              >
+              <div class="modal fade" id="analysis-{{ item.nama_file|cut:"." }}" data-bs-backdrop="static"
+                data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog modal-fullscreen">
                   <div class="modal-content">
                     <div class="modal-header">
                       <h5 class="modal-title" id="staticBackdropLabel">
-                        Gambar {{ item.nama_file }}
+                        Analisis {{ item.nama_file }}
                       </h5>
-                      <button
-                        type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                      ></button>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body bg-dark">
                       <div class="row h-100 mx-3">
                         <div class="col-md-8 position-relative">
-                          <img
-                            src="{% static 'images/' %}{{ item.nama_file }}"
-                            class="img-fluid position-absolute top-50 start-50 translate-middle"
-                            style="max-width: 50%"
-                            alt="fire"
-                          />
+                          <img src="{% static 'images/' %}{{ item.nama_file }}"
+                            class="img-fluid position-absolute top-50 start-50 translate-middle" style="max-width: 50%"
+                            alt="fire" />
                         </div>
                         <div class="col-md-4 bg-white">
                           <div class="p-3">
@@ -107,15 +84,6 @@ Pertemuan 2 : Show RGB per Pixel
                                   </tr>
                                 </thead>
                                 <tbody id="target-{{item.nama_file}}">
-                                  {% comment %} {{ res|safe}} {% endcomment %}
-                                  {% comment %} {% for items in res %}
-                                  <tr>
-                                    <th>{{ forloop.counter }}</th>
-                                    <td>{{ items.2 }}</td>
-                                    <td>{{ items.1 }}</td>
-                                    <td>{{ items.0 }}</td>
-                                  </tr>
-                                  {% endfor %} {% endcomment %}
                                 </tbody>
                               </table>
                             </div>
@@ -124,16 +92,55 @@ Pertemuan 2 : Show RGB per Pixel
                       </div>
                     </div>
                     <div class="modal-footer">
-                      <button
-                        type="button"
-                        class="btn btn-secondary"
-                        data-bs-dismiss="modal"
-                      >
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         Close
                       </button>
                       <button type="button" class="btn btn-primary">
                         Understood
                       </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Button trigger modal -->
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                data-bs-target="#grayscale-{{ item.nama_file|cut:"." }}">
+                Go Grayscale
+              </button>
+
+              <!-- Modal -->
+              <div class="modal fade" id="grayscale-{{ item.nama_file|cut:"." }}" tabindex="-1"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-fullscreen">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Grayscale {{ item.nama_file }}</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="row">
+                        <div class="col-4">
+                          <p>Real</p>
+                          <img src="{% static 'images/' %}{{ item.nama_file }}" class="img-fluid" 
+                            alt="fire" />
+                        </div>
+                        <div class="col-4">
+                          <p>Grayscale with OpenCV</p>
+                          <img src="{% static 'images/' %}{{ item.nama_file }}" class="img-fluid" 
+                            alt="fire" />
+                        </div>
+                        <div class="col-4">
+                          <p>Grayscale without OpenCV</p>
+                          <img src="{% static 'images/' %}{{ item.nama_file }}"
+                            class="img-fluid"
+                            alt="fire" />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary">Save changes</button>
                     </div>
                   </div>
                 </div>

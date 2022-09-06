@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 from django.shortcuts import render
 from django.http import HttpResponse
 import cv2
@@ -6,8 +7,6 @@ from pathlib import Path
 from django_cv2.settings import BASE_DIR
 
 # Create your views here.
-
-
 def index(request):
     return render(request, "index.html")
 
@@ -57,3 +56,18 @@ def processing(file_name, scale_percent):
     results = resized
     
     return results, img
+
+def getGrayImgOpenCv(file_name):
+    path = str(Path(__file__).resolve().parent)+'\\static\\images\\'+file_name
+    save_path_to = str(Path(__file__).resolve().parent)+'\\static\\images\\gray\\'+file_name
+    
+    img = cv2.imread(path, cv2.IMREAD_COLOR)
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+    #save the image    
+    status = cv2.imwrite(save_path_to, gray)
+
+    if(status):
+        return save_path_to
+
+    return NULL    
