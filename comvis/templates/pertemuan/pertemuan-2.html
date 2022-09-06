@@ -29,13 +29,13 @@ Pertemuan 2 : Show RGB per Pixel
             <div class="card-body">
               <h5 class="card-title">{{ item.nama_file }}</h5>
 
-              <!-- Button trigger modal -->
+              <!-- Button trigger modal Analisis --> 
               <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                 data-bs-target="#analysis-{{ item.nama_file|cut:"." }}">
                 Go Analysis
               </button>
 
-              <!-- Modal -->
+              <!-- Modal Analysis -->
               <div class="modal fade" id="analysis-{{ item.nama_file|cut:"." }}" data-bs-backdrop="static"
                 data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog modal-fullscreen">
@@ -103,13 +103,13 @@ Pertemuan 2 : Show RGB per Pixel
                 </div>
               </div>
 
-              <!-- Button trigger modal -->
+              <!-- Button trigger modal Grayscale -->
               <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                 data-bs-target="#grayscale-{{ item.nama_file|cut:"." }}">
                 Go Grayscale
               </button>
 
-              <!-- Modal -->
+              <!-- Modal Grayscale -->
               <div class="modal fade" id="grayscale-{{ item.nama_file|cut:"." }}" tabindex="-1"
                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-fullscreen">
@@ -125,14 +125,14 @@ Pertemuan 2 : Show RGB per Pixel
                           <img src="{% static 'images/' %}{{ item.nama_file }}" class="img-fluid" 
                             alt="fire" />
                         </div>
-                        <div class="col-4">
-                          <p>Grayscale with OpenCV</p>
-                          <img src="{% static 'images/' %}{{ item.nama_file }}" class="img-fluid" 
-                            alt="fire" />
+                        <div class="col-4">                          
+                          <p>Grayscale with OpenCV</p>                          
+                          <img src="{% static 'images/gray-opencv/' %}{{ item.nama_file }}" class="img-fluid" 
+                            alt="fire gray error" />
                         </div>
                         <div class="col-4">
                           <p>Grayscale without OpenCV</p>
-                          <img src="{% static 'images/' %}{{ item.nama_file }}"
+                          <img src="{% static 'images/gray-manual/' %}{{ item.nama_file }}"
                             class="img-fluid"
                             alt="fire" />
                         </div>

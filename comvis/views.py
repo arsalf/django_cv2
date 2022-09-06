@@ -5,6 +5,8 @@ import cv2
 import numpy as np
 from pathlib import Path
 from django_cv2.settings import BASE_DIR
+from statistics import mean
+import matplotlib.image as mimg
 
 # Create your views here.
 def index(request):
@@ -30,14 +32,19 @@ def getInfoImg(rData):
         for items in res[0]:
             for colors in items:
                 strFormat += "<tr><th>"+str(i)+"</th><td>"+str(colors[2])+"</td><td>"+str(colors[1])+"</td><td>"+str(colors[0])+"</td></tr>"
-                i += 1
+                i += 1        
+        imgGray = getGrayImgOpenCv(str(r)+".jpg")        
+        imgGrayManual = getGrayImgManual(str(r)+".jpg")        
+
         data.append( {
             "nama_file" : str(r)+".jpg",
             "res": strFormat,
             "width" : res[0].shape[1],
             "height" : res[0].shape[0],
             "rwidth" : res[1].shape[1],
-            "rheight" : res[1].shape[0]
+            "rheight" : res[1].shape[0],
+            "gray_opencv" : imgGray,
+            "gray_manual" : imgGrayManual
         })
     return data
 
@@ -59,7 +66,7 @@ def processing(file_name, scale_percent):
 
 def getGrayImgOpenCv(file_name):
     path = str(Path(__file__).resolve().parent)+'\\static\\images\\'+file_name
-    save_path_to = str(Path(__file__).resolve().parent)+'\\static\\images\\gray\\'+file_name
+    save_path_to = str(Path(__file__).resolve().parent)+'\\static\\images\\gray-opencv\\'+file_name
     
     img = cv2.imread(path, cv2.IMREAD_COLOR)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -67,7 +74,33 @@ def getGrayImgOpenCv(file_name):
     #save the image    
     status = cv2.imwrite(save_path_to, gray)
 
-    if(status):
-        return save_path_to
+    return status
 
-    return NULL    
+def getGrayImgManual(file_name):
+    path = str(Path(__file__).resolve().parent)+'\\static\\images\\'+file_name
+    save_path_to = str(Path(__file__).resolve().parent)+'\\static\\images\\gray-manual\\'+file_name
+    
+    m = mimg.imread(path)
+ 
+    # determining width and height of original image
+    w, h = m.shape[:2]
+    
+    # new Image dimension with 4 attribute in each pixel
+    newImage = np.zeros([w, h, 3])
+    print( w )
+    print( h )
+    
+    for i in range(w):
+        for j in range(h):
+            # ratio of RGB will be between 0 and 1
+            lst = [float(m[i][j][0]), float(m[i][j][1]), float(m[i][j][2])]
+            avg = float(mean(lst))
+            newImage[i][j][0] = avg
+            newImage[i][j][1] = avg
+            newImage[i][j][2] = avg
+            # newImage[i][j][3] = 1 # alpha value to be 1
+    print(newImage)
+    # Save image using imsave    
+    status = cv2.imwrite(save_path_to, newImage)
+
+    return status
